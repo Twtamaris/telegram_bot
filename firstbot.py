@@ -29,7 +29,7 @@ def handle_response(text: str) -> str:
     if 'how are you' in processed:
         return 'I am good!'
     if 'i love python' in processed:
-        return 'Remember to subscribe!'
+        return 'Remember to subscribe!' 
     return 'I do not understand what you wrote...'
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -50,7 +50,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(response)
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print(f'Update [{update}] caused error ({context.error})')
+    try:
+        chat_id = update.channel_post.chat.id  # Access channel-specific chat ID
+        print(f'Update [{update}] caused error ({context.error}) in channel {chat_id}')
+    except AttributeError:
+        print(f'An error occurred ({context.error}) in a non-channel context')
+
 
 if __name__ == '__main__':
     print('Starting bot...')
