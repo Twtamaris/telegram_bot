@@ -10,6 +10,9 @@ from telegram.ext import (
 import telegram
 from datetime import datetime
 import asyncio
+from pytz import timezone
+
+local_tz = timezone('Asia/Kathmandu')
 
 current_time = datetime.now().strftime("%H:%M")
 
@@ -24,6 +27,11 @@ TOKEN = '6879758654:AAGqufutJfVU7Xtb-nXBmvxvgwCg4BoXcSI'
 BOT_USERNAME = '@Saurabey_bot'
 bot = telegram.Bot(token=TOKEN)
 
+def get_local_time():
+    # Get the current time in your local timezone
+    local_time = datetime.now(local_tz)
+    return local_time.strftime("%H:%M")
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Hello! Thanks for chatting with me! I am a Saurabey!')
 
@@ -37,7 +45,7 @@ async def send_reminder():
     while True:
         print('Checking for classes...')
         today = datetime.today().weekday()
-        current_time = datetime.now().strftime("%H:%M")
+        current_time = get_local_time() 
         print(current_time)
         if current_time in times:
             print('Time matched')
@@ -89,30 +97,23 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print(f'An error occurred ({context.error}) in a non-channel context')
 
 
-if __name__ == '__main__':
-    print('Starting bot...')
-    loop = asyncio.get_event_loop()
+async def main():
+    bot = telegram.Bot(token=TOKEN)
     app = Application.builder().token(TOKEN).build()
 
-    # Commands
     app.add_handler(CommandHandler('start', start))
-    # Add other command handlers here...
-
-    # Messages
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
-    # Add other message handlers here...
-
-    # Errors
     app.add_error_handler(error)
 
-    # Schedule the periodic reminder task
-    loop.create_task(send_reminder())
+    while True:
+        try:
+            # Check for classes and send reminders
+            await send_reminder()
+            await asyncio.sleep(60)  # Check every minute
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            await asyncio.sleep(10)  # Wait before retrying in case of an error
 
-    # Polls the bot
-    print('Polling...')
-    try:
-        loop.run_until_complete(app.run_polling(poll_interval=3))
-    except KeyboardInterrupt:
-        pass
-    finally:
-        loop.run_until_complete(app.session.close())
+if __name__ == '__main__':
+    print('Starting bot...')
+    asyncio.run(main())
