@@ -12,13 +12,13 @@ TOKEN: Final = '6879758654:AAGqufutJfVU7Xtb-nXBmvxvgwCg4BoXcSI'
 BOT_USERNAME: Final = '@Saurabey_bot'
 
 # Commands
-async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('Hello! Thanks for chatting with me! I am a banana!')
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text('Hello! Thanks for chatting with me! I am a Saurabey!')
 
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('I am a banana! Please type something so I can respond!')
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text('I am a Saurabey! Please type something so I can respond!')
 
-async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def custom(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('This is a custom command!')
 
 # Responses
