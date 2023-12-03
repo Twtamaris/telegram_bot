@@ -16,7 +16,7 @@ current_time = datetime.now().strftime("%H:%M")
 morning_subjects = ['OOAD', 'DBMS', 'DBMS', 'ES', 'ES','N', 'OOAD']
 day_subjects = ['AI', 'ECONOMICS', 'ECONOMICS', 'OS', 'OS','N', 'AI']
 dawn_subjects = ['Project Gr.D', 'Embedded System Lab', 'N', 'OOAD Lab', 'OS System Lab','N', 'DBMS_Lab']
-times = [current_time, "11:15", "13:30"]
+times = ['09:46', "11:15", "13:30"]
 subjects = [morning_subjects, day_subjects, dawn_subjects]
 
 TOKEN = '6879758654:AAGqufutJfVU7Xtb-nXBmvxvgwCg4BoXcSI'
@@ -38,7 +38,7 @@ async def send_reminder():
     current_time = datetime.now().strftime("%H:%M")
     print(current_time)
     if current_time in times:
-        print('This is awesome')
+        print('Time matched')
         index_ = times.index(current_time)
         subject = subjects[index_][today]
         if subject != 'N':
@@ -87,20 +87,28 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 if __name__ == '__main__':
     print('Starting bot...')
+    loop = asyncio.get_event_loop()
     app = Application.builder().token(TOKEN).build()
 
     # Commands
     app.add_handler(CommandHandler('start', start))
-    app.add_handler(CommandHandler('help', help))
-    app.add_handler(CommandHandler('custom', custom))
+    # Add other command handlers here...
 
     # Messages
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
+    # Add other message handlers here...
 
     # Errors
     app.add_error_handler(error)
-    asyncio.run(send_reminder())
+
+    # Schedule the periodic reminder task
+    loop.create_task(send_reminder())
 
     # Polls the bot
     print('Polling...')
-    app.run_polling(poll_interval=3)
+    try:
+        loop.run_until_complete(app.run_polling(poll_interval=3))
+    except KeyboardInterrupt:
+        pass
+    finally:
+        loop.run_until_complete(app.session.close())
