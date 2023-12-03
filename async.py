@@ -13,9 +13,9 @@ import asyncio
 
 current_time = datetime.now().strftime("%H:%M")
 
-morning_subjects = ['OOAD', 'DBMS', 'DBMS', 'ES', 'ES', 'OOAD']
-day_subjects = ['AI', 'ECONOMICS', 'ECONOMICS', 'OS', 'OS', 'AI']
-dawn_subjects = ['Project Gr.D', 'Embedded System Lab', 'N', 'OOAD Lab', 'OS System Lab', 'DBMS_Lab']
+morning_subjects = ['OOAD', 'DBMS', 'DBMS', 'ES', 'ES','N', 'OOAD']
+day_subjects = ['AI', 'ECONOMICS', 'ECONOMICS', 'OS', 'OS','N', 'AI']
+dawn_subjects = ['Project Gr.D', 'Embedded System Lab', 'N', 'OOAD Lab', 'OS System Lab','N', 'DBMS_Lab']
 times = [current_time, "11:15", "13:30"]
 subjects = [morning_subjects, day_subjects, dawn_subjects]
 
@@ -44,7 +44,7 @@ async def send_reminder():
         if subject != 'N':
             response = f"Hey! You have {subject} class in 15 minutes"
             print(response)
-            await bot.send_message(chat_id='@Saurabey_bot', text=response)
+            await bot.send_message(chat_id='-4024365137', text=response)
 
 
 def handle_response(text: str):
@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
     # Errors
     app.add_error_handler(error)
-    # asyncio.run(send_reminder())
+    asyncio.run(send_reminder())
 
     # Polls the bot
     print('Polling...')
