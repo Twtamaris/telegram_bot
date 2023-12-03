@@ -16,7 +16,7 @@ current_time = datetime.now().strftime("%H:%M")
 morning_subjects = ['OOAD', 'DBMS', 'DBMS', 'ES', 'ES','N', 'OOAD']
 day_subjects = ['AI', 'ECONOMICS', 'ECONOMICS', 'OS', 'OS','N', 'AI']
 dawn_subjects = ['Project Gr.D', 'Embedded System Lab', 'N', 'OOAD Lab', 'OS System Lab','N', 'DBMS_Lab']
-times = ['09:46', "11:15", "13:30"]
+times = ['09:54', "11:15", "13:30"]
 subjects = [morning_subjects, day_subjects, dawn_subjects]
 
 TOKEN = '6879758654:AAGqufutJfVU7Xtb-nXBmvxvgwCg4BoXcSI'
@@ -33,18 +33,21 @@ async def custom(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('This is a custom command!')
 
 async def send_reminder():
-    print('This is awesome')
-    today = datetime.today().weekday()
-    current_time = datetime.now().strftime("%H:%M")
-    print(current_time)
-    if current_time in times:
-        print('Time matched')
-        index_ = times.index(current_time)
-        subject = subjects[index_][today]
-        if subject != 'N':
-            response = f"Hey! You have {subject} class in 15 minutes"
-            print(response)
-            await bot.send_message(chat_id='-4024365137', text=response)
+    while True:
+        print('Checking for classes...')
+        today = datetime.today().weekday()
+        current_time = datetime.now().strftime("%H:%M")
+        print(current_time)
+        if current_time in times:
+            print('Time matched')
+            index_ = times.index(current_time)
+            subject = subjects[index_][today]
+            if subject != 'N':
+                response = f"Hey! You have {subject} class in 15 minutes"
+                print(response)
+                await bot.send_message(chat_id='-4024365137', text=response)
+        await asyncio.sleep(60)  # Sleep for 60 seconds (1 minute) before the next check
+
 
 
 def handle_response(text: str):
