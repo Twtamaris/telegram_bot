@@ -20,7 +20,7 @@ current_time = datetime.now().strftime("%H:%M")
 morning_subjects = ['OOAD', 'ES', 'DBMS', 'ES', 'DBMS','N', 'OOAD']
 day_subjects = ['AI', 'ECONOMICS', 'ECONOMICS', 'AI', 'OS','N', 'OS']
 dawn_subjects = ['DBMS Lab', 'Embedded System Lab', 'AI lab','N', 'OS Lab', 'N','DBMS']
-times = ['09:54', "11:15", "13:30"]
+times = ['09:46', "11:15", "13:30"]
 subjects = [morning_subjects, day_subjects, dawn_subjects]
 
 TOKEN = '6879758654:AAGqufutJfVU7Xtb-nXBmvxvgwCg4BoXcSI'
